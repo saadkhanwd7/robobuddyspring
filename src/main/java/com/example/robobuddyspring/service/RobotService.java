@@ -4,7 +4,9 @@ package com.example.robobuddyspring.service;
 import com.example.robobuddyspring.model.Robot;
 import com.example.robobuddyspring.model.Task;
 import com.example.robobuddyspring.model.TaskStatus;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RobotService {
 
     /**

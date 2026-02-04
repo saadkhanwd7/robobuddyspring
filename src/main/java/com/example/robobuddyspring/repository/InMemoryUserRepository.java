@@ -1,10 +1,12 @@
 package com.example.robobuddyspring.repository;
 
 import com.example.robobuddyspring.model.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class InMemoryUserRepository implements UserRepository {
 
     private final Map<String, User> usersByUsername = new HashMap<>();
