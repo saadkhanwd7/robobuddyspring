@@ -5,7 +5,9 @@ import com.example.robobuddyspring.model.User;
 import com.example.robobuddyspring.repository.UserRepository;
 import com.example.robobuddyspring.util.IdUtil;
 import com.example.robobuddyspring.util.PasswordUtil;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
     private final UserRepository userRepository;

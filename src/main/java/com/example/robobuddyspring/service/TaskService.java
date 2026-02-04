@@ -4,17 +4,19 @@ package com.example.robobuddyspring.service;
 import com.example.robobuddyspring.model.Robot;
 import com.example.robobuddyspring.model.Task;
 import com.example.robobuddyspring.model.TaskStatus;
-import com.example.robobuddyspring.repository.InMemoryTaskRepository;
+import com.example.robobuddyspring.repository.TaskRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Service
 public class TaskService {
 
 
-    private final InMemoryTaskRepository taskRepo;
+    private final TaskRepository taskRepo;
 
-    public TaskService(InMemoryTaskRepository taskRepo) {
+    public TaskService(TaskRepository taskRepo) {
         this.taskRepo = taskRepo;
     }
     public void completeTask(String userId, Task task, Robot robot) {
