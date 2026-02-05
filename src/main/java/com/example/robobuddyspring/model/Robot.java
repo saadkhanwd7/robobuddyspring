@@ -13,8 +13,8 @@ public class Robot {
     private int health;            // Health (100 = full, 0 = broken)
     private int energy;
     private String feeling;
-    private int roboCredits;
-    private int cash;
+    private int embers;
+    private int orbs;
     private int daysCompleted;     // Total days with all tasks completed
     private int tasksCompletedToday; // Count of tasks completed today
     private int tasksSkippedToday;   // Count of tasks skipped today
@@ -33,8 +33,8 @@ public class Robot {
         this.tasksSkippedToday = 0;
         this.energy = 100;      // full energy by default
         this.feeling = "neutral"; // default mood
-        this.roboCredits = 0;   // start with nothing
-        this.cash = 0;          // start with nothing
+        this.embers = 0;   // start with nothing
+        this.orbs = 0;          // start with nothing
     }
 
 
@@ -48,11 +48,11 @@ public class Robot {
 
 
 
-    public void addRoboCredits(int roboCredits) {
-        this.roboCredits += roboCredits;
+    public void addRoboCredits(int embers) {
+        this.embers += embers;
     }
-    public void subtractRoboCredits(int roboCredits) {
-        this.roboCredits -= roboCredits;
+    public void subtractRoboCredits(int embers) {
+        this.embers -= embers;
     }
 
 
