@@ -13,6 +13,7 @@ import java.time.LocalTime;
 public class Task{
     private int taskId;
     private String taskName;
+    private String description;
     private String userId;
     private TaskStatus status;
     private RobotAction robotAction;
