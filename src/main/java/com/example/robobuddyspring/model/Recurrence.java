@@ -1,6 +1,6 @@
 package com.example.robobuddyspring.model;
 
-public enum Recurrence {
+public enum     Recurrence {
     ONCE,
     DAILY,
     WEEKLY,
