@@ -9,7 +9,8 @@ public enum RobotAction{
     WORKOUT,
     PLAY,
     READ,
-    RANDOM
+    RANDOM,
+    BONFIRE
 
 
 

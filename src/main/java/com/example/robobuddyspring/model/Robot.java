@@ -10,7 +10,7 @@ public class Robot {
     private String name;           // Robot/character name
     private int level;             // Current level
     private int xp;                // Experience points
-    private int health;            // Health (100 = full, 0 = broken)
+    private double warmth;            // Health (100 = full, 0 = broken)
     private int energy;
     private String feeling;
     private int embers;
@@ -27,7 +27,7 @@ public class Robot {
     public Robot() {
         this.level = 1;
         this.xp = 0;
-        this.health = 100;
+        this.warmth = 100;
         this.daysCompleted = 0;
         this.tasksCompletedToday = 0;
         this.tasksSkippedToday = 0;
@@ -48,10 +48,10 @@ public class Robot {
 
 
 
-    public void addRoboCredits(int embers) {
+    public void addEmbers(int embers) {
         this.embers += embers;
     }
-    public void subtractRoboCredits(int embers) {
+    public void subtractEmbers(int embers) {
         this.embers -= embers;
     }
 
@@ -63,8 +63,8 @@ public class Robot {
 
     // Convenience methods
     public void addXp(int amount) { this.xp += amount; }
-    public void addHealth(int amount) { this.health += amount; }
-    public void subtractHealth(int amount) { this.health -= amount; }
+    public void addWarmth(float amount) { this.warmth += amount; }
+    public void subtractWarmth(float amount) { this.warmth -= amount; }
 
     public void resetDailyStats() {
         this.tasksCompletedToday = 0;
