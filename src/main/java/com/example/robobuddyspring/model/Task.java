@@ -1,9 +1,7 @@
 package com.example.robobuddyspring.model;
 import lombok.Getter;
 import lombok.Setter;
-import com.example.robobuddyspring.model.RobotAction;
 
-import java.time.LocalTime;
 import java.time.LocalTime;
 
 @Getter
@@ -21,7 +19,13 @@ public class Task{
     private Recurrence recurrence;
 
 
-
+    public Task(String userId, String taskName, String description, LocalTime scheduledTime, Recurrence recurrence) {
+        this.userId = userId;
+        this.taskName = taskName;
+        this.description = description;
+        this.scheduledTime = scheduledTime;
+        this.recurrence = recurrence;
+    }
 
 
 }

@@ -64,8 +64,21 @@ public class RobotService {
 
         robot.setFeeling("bored");
         robot.setEnergy(robot.getEnergy() - 3);
-        robot.setWarmth(robot.getWarmth() - 0.5);
+        robot.setWarmth(Math.max(robot.getWarmth() - 0.5  , 1  ));
         robot.setTasksSkippedToday(robot.getTasksSkippedToday() + 1);
+        robot.setCurrentRobotAction(RobotAction.BONFIRE);
+
+        robotRepo.update(task.getUserId(), robot);
+    }
+
+
+    public void completeTask(String userId, Task task , Robot robot){
+
+        if (!userId.equals(task.getUserId())) return;
+
+        robot.setTasksCompletedToday(robot.getTasksCompletedToday() + 1);
+        robot.setWarmth(Math.min(robot.getWarmth() + 1, 100));
+        robot.setCurrentTask(task);
         robot.setCurrentRobotAction(RobotAction.BONFIRE);
 
         robotRepo.update(task.getUserId(), robot);
