@@ -80,6 +80,7 @@ public class RobotService {
         robot.setWarmth(Math.min(robot.getWarmth() + 1, 100));
         robot.setCurrentTask(task);
         robot.setCurrentRobotAction(RobotAction.BONFIRE);
+        robot.setFeeling("warm");
 
         robotRepo.update(task.getUserId(), robot);
     }

@@ -72,8 +72,9 @@ public class TaskService {
             task.setStatus(TaskStatus.SKIPPED);
 
 
-        taskRepo.update(userId, task);
         robotService.skipTask(task, robot);
+        taskRepo.update(userId, task);
+
 
     }
 
