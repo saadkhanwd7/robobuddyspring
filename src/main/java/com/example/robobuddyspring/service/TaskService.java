@@ -1,12 +1,10 @@
 package com.example.robobuddyspring.service;
 
-import com.example.robobuddyspring.model.Robot;
-import com.example.robobuddyspring.model.RobotAction;
-import com.example.robobuddyspring.model.Task;
-import com.example.robobuddyspring.model.TaskStatus;
+import com.example.robobuddyspring.model.*;
 import com.example.robobuddyspring.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -16,10 +14,18 @@ public class TaskService {
     private final TaskRepository taskRepo;
     private final RobotService robotService;
 
-
     public TaskService(TaskRepository taskRepo, RobotService robotService) {
         this.taskRepo = taskRepo;
         this.robotService = robotService;
+    }
+
+
+    public Task createTask(String userId, String taskName, String description, LocalTime scheduledTime, Recurrence recurrence) {
+
+        Task task = new Task(userId, taskName, description, scheduledTime, recurrence);
+
+        taskRepo.save(userId, task);
+        return task;
     }
 
     /**
@@ -38,35 +44,22 @@ public class TaskService {
         taskRepo.update(userId, task);
     }
 
+
     /**
      * Completes a task and rewards the robot.
      */
     public void completeTask(String userId, Task task, Robot robot) {
+
         if (task == null || robot == null || userId == null) return;
 
         if (task.getStatus() != TaskStatus.COMPLETED) {
             // Mark task as completed
             task.setStatus(TaskStatus.COMPLETED);
 
-            // Update robot daily stats
-            robot.setTasksCompletedToday(robot.getTasksCompletedToday() + 1);
-            robot.setWarmth(robot.getWarmth() + 1);
-            // Reward robot
-//        robot.addXp(10);
-            // robot.addRoboCredits(5); // optional
-//        robot.setEnergy(Math.min(robot.getEnergy() + 10, 100));
+
+            robotService.completeTask(userId,task,robot);
 
 
-            // Feeling can optionally be updated again after completion
-//        if (task.getRobotAction() == RobotAction.WORKOUT) {
-//            robot.setFeeling("neutral");
-//        }
-
-            // Update robot current task and action
-            robot.setCurrentTask(task);
-            robot.setCurrentRobotAction(task.getRobotAction());
-
-            // Persist task
             taskRepo.update(userId, task);
         }
     }
