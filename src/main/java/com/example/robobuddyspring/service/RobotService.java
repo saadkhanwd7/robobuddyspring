@@ -3,7 +3,9 @@ package com.example.robobuddyspring.service;
 import com.example.robobuddyspring.model.Robot;
 import com.example.robobuddyspring.model.RobotAction;
 import com.example.robobuddyspring.model.Task;
+import com.example.robobuddyspring.model.User;
 import com.example.robobuddyspring.repository.RobotRepository;
+import com.example.robobuddyspring.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,9 +13,12 @@ public class RobotService {
 
 
     private final RobotRepository robotRepo;
+    private final UserRepository userRepository;
 
-    public RobotService(RobotRepository robotRepo) {
+
+    public RobotService(RobotRepository robotRepo, UserRepository userRepository) {
         this.robotRepo = robotRepo;
+        this.userRepository = userRepository;
     }
 
 
@@ -87,11 +92,24 @@ public class RobotService {
 
         robotRepo.update(task.getUserId(), robot);
     }
+    public double getBonfireWarmth(Task task , Robot robot){
 
+        String userId  = task.getUserId();
+        User user = userRepository.findById(userId);
+        if(robot.getTasksSkippedToday() == user.getDailyTasks().size())
+            robot.setWarmth(Math.max(robot.getWarmth() -10,1));
+
+
+        return (double) robot.getTasksCompletedToday() / 2;
+
+
+    }
     // Simple helper for completing tasks
     public void addEnergy(Robot robot, int delta) {
         robot.setEnergy(Math.max(Math.min(robot.getEnergy() + delta, 100), 0));
     }
+
+
 
     public void setFeeling(Robot robot, String feeling) {
         robot.setFeeling(feeling);
