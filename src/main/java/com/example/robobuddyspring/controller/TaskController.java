@@ -40,7 +40,6 @@ public class TaskController {
 
     }
 
-
     //start task
     @PutMapping("/tasks/start")
     public Task startTask(@RequestBody Task task){
@@ -48,10 +47,6 @@ public class TaskController {
         return taskService.startTask(task);
 
     }
-
-
-
-
     //  Get all tasks for a user
     @GetMapping("/tasks/{userId}")
     public List<Task> getTasks(@PathVariable String userId) {
