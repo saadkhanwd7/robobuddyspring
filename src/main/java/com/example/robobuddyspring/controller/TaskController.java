@@ -31,13 +31,36 @@ public class TaskController {
         this.robotRepo = robotRepo;
     }
 
-    // 1️⃣ Get all tasks for a user
+
+    //create task
+    @PostMapping("/tasks/{userId}/create")
+    public Task createTask(@PathVariable String userId,@RequestBody Task task){
+
+        return taskService.createTask(userId,task);
+
+    }
+
+
+
+
+    //start task
+    @PutMapping("/tasks/start")
+    public Task startTask(@RequestBody Task task){
+
+        return taskService.startTask(task);
+
+    }
+
+
+
+
+    //  Get all tasks for a user
     @GetMapping("/tasks/{userId}")
     public List<Task> getTasks(@PathVariable String userId) {
         return taskRepo.findByUserId(userId);
     }
 
-    // 2️⃣ Complete task
+    // Complete task
     @PostMapping("/tasks/{userId}/complete")
     public String completeTask(
             @PathVariable String userId,
@@ -47,8 +70,7 @@ public class TaskController {
         taskService.completeTask(userId, task, robot);
         return "Task completed";
     }
-
-    // 3️⃣ Skip task
+    // skip task
     @PostMapping("/tasks/{userId}/skip")
     public String skipTask(
             @PathVariable String userId,
@@ -59,9 +81,11 @@ public class TaskController {
         return "Task skipped";
     }
 
-    // 4️⃣ Get robot state
+    //  Get robot state
     @GetMapping("/robot/{userId}")
     public Robot getRobot(@PathVariable String userId) {
         return robotRepo.findByUserId(userId);
     }
+
+
 }

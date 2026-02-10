@@ -2,6 +2,7 @@ package com.example.robobuddyspring.service;
 
 import com.example.robobuddyspring.model.*;
 import com.example.robobuddyspring.repository.TaskRepository;
+import com.example.robobuddyspring.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -13,35 +14,52 @@ public class TaskService {
 
     private final TaskRepository taskRepo;
     private final RobotService robotService;
+    private final UserRepository userRepository;
 
-    public TaskService(TaskRepository taskRepo, RobotService robotService) {
+    public TaskService(TaskRepository taskRepo, RobotService robotService, UserRepository userRepository) {
         this.taskRepo = taskRepo;
         this.robotService = robotService;
+        this.userRepository = userRepository;
     }
 
 
-    public Task createTask(String userId, String taskName, String description, LocalTime scheduledTime, Recurrence recurrence) {
+    public Task createTask(String userId,Task task) {
 
-        Task task = new Task(userId, taskName, description, scheduledTime, recurrence);
+        String taskName = task.getTaskName();
+        String description = task.getDescription();
+        LocalTime scheduledTime = task.getScheduledTime();
+        Recurrence recurrence = task.getRecurrence();
 
-        taskRepo.save(userId, task);
+        Task task1 = new Task(userId, taskName, description, scheduledTime, recurrence);
+
+        taskRepo.save(userId, task1);
         return task;
     }
 
     /**
      * Starts a task for the user and updates robot's state immediately.
+     *
+     * @return
      */
-    public void startTask(String userId, Task task, Robot robot) {
-        if (task == null || robot == null || userId == null) return;
+    public Task startTask(Task task) {
+        if (task == null) return task;
 
-        // Update task status
-        task.setStatus(TaskStatus.IN_PROGRESS);
+        String userId  = task.getUserId();
+        User user = userRepository.findById(userId);
+
+        Robot robot = user.getRobot();
 
         // Update robot energy and feeling immediately
         robotService.startTask(task, robot);
 
+
+        // Update task status
+        task.setStatus(TaskStatus.IN_PROGRESS);
+
+
         // Persist task if needed
         taskRepo.update(userId, task);
+        return task;
     }
 
 
@@ -52,13 +70,12 @@ public class TaskService {
 
         if (task == null || robot == null || userId == null) return;
 
+
+        robotService.completeTask(userId,task,robot);
+
         if (task.getStatus() != TaskStatus.COMPLETED) {
             // Mark task as completed
             task.setStatus(TaskStatus.COMPLETED);
-
-
-            robotService.completeTask(userId,task,robot);
-
 
             taskRepo.update(userId, task);
         }
