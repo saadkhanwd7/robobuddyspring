@@ -33,14 +33,12 @@ public class TaskController {
 
 
     //create task
-    @PostMapping("/tasks/{userId}/create")
+    @PostMapping("/tasks/create")
     public Task createTask(@PathVariable String userId,@RequestBody Task task){
 
         return taskService.createTask(userId,task);
 
     }
-
-
 
 
     //start task

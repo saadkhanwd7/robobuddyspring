@@ -4,6 +4,7 @@ package com.example.robobuddyspring.service;
 import com.example.robobuddyspring.model.Recurrence;
 import com.example.robobuddyspring.model.Task;
 import com.example.robobuddyspring.model.User;
+import com.example.robobuddyspring.model.UserDto;
 import com.example.robobuddyspring.repository.TaskRepository;
 import com.example.robobuddyspring.repository.UserRepository;
 import com.example.robobuddyspring.util.IdUtil;
@@ -22,15 +23,21 @@ public class UserService {
 
     }
 
-    public User register(String username, String rawPassword) {
-        String hash = PasswordUtil.hash(rawPassword);
+    public User createUser(UserDto userdto) {
+
+
+        String username = userdto.getUsername();
+        String rawPassword = userdto.getPassword();
+
+
+        String hashedPassword = PasswordUtil.hash(rawPassword);
+
         User user = new User(
                 IdUtil.uuid(),
                 username,
-                hash
+                hashedPassword
         );
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     public User login(String username, String rawPassword) {
@@ -42,7 +49,6 @@ public class UserService {
         }
         return user;
     }
-
 
 
 
