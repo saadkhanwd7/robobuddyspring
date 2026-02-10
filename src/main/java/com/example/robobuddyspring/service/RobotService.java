@@ -25,9 +25,12 @@ public class RobotService {
         if (task == null || robot == null) return;
 
         // Link task to robot
+        if (robot.getCurrentTask() != null) {
+            throw new IllegalStateException("Robot is already busy");
+        }
+
         robot.setCurrentTask(task);
         robot.setCurrentRobotAction(task.getRobotAction());
-
 
         // Update energy based on task
         switch (task.getRobotAction()) {
@@ -78,7 +81,7 @@ public class RobotService {
 
         robot.setTasksCompletedToday(robot.getTasksCompletedToday() + 1);
         robot.setWarmth(Math.min(robot.getWarmth() + 1, 100));
-        robot.setCurrentTask(task);
+        robot.setCurrentTask(null);
         robot.setCurrentRobotAction(RobotAction.BONFIRE);
         robot.setFeeling("warm");
 
