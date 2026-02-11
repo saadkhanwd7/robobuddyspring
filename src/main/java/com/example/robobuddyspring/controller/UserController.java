@@ -5,6 +5,7 @@ import com.example.robobuddyspring.model.Task;
 import com.example.robobuddyspring.model.User;
 import com.example.robobuddyspring.model.UserDto;
 import com.example.robobuddyspring.repository.UserRepository;
+import com.example.robobuddyspring.service.RobotService;
 import com.example.robobuddyspring.service.TaskService;
 import com.example.robobuddyspring.service.UserService;
 import com.example.robobuddyspring.repository.RobotRepository;
@@ -22,19 +23,21 @@ public class UserController {
     private final TaskRepository taskRepo;
     private final UserRepository userRepository;
     private final RobotRepository robotRepo;
+    private final RobotService robotService;
 
     public UserController(
             UserService userService,
             TaskService taskService,
             TaskRepository taskRepo,
             UserRepository userRepository,
-            RobotRepository robotRepo
+            RobotRepository robotRepo, RobotService robotService
     ) {
         this.userService = userService;
         this.taskService = taskService;
         this.taskRepo = taskRepo;
         this.userRepository = userRepository;
         this.robotRepo = robotRepo;
+        this.robotService = robotService;
     }
 
     // Create user
@@ -59,5 +62,13 @@ public class UserController {
     @GetMapping("/{userId}/robot")
     public Robot getUserRobot(@PathVariable String userId) {
         return robotRepo.findByUserId(userId);
+    }
+
+    // 2️⃣ Trigger end-of-day bonfire logic
+    @PostMapping("/{userId}/bonfire")
+    public Robot applyBonfire(@PathVariable String userId) {
+        Robot robot = robotRepo.findByUserId(userId);
+        robotService.getBonfireWarmth(userId,robot);
+        return robot;
     }
 }

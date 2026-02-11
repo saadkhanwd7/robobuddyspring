@@ -90,19 +90,20 @@ public class RobotService {
         robot.setCurrentRobotAction(RobotAction.BONFIRE);
         robot.setFeeling("warm");
 
+
         robotRepo.update(task.getUserId(), robot);
     }
-    public double getBonfireWarmth(Task task , Robot robot){
+    public void getBonfireWarmth(String userId , Robot robot){
 
-        String userId  = task.getUserId();
         User user = userRepository.findById(userId);
         if(robot.getTasksSkippedToday() == user.getDailyTasks().size())
             robot.setWarmth(Math.max(robot.getWarmth() -10,1));
 
 
-        return (double) robot.getTasksCompletedToday() / 2;
+        robot.setWarmth(Math.min(robot.getWarmth() + (double) robot.getTasksCompletedToday() / 2,100 ));
 
 
+        robotRepo.update(userId, robot);
     }
     // Simple helper for completing tasks
     public void addEnergy(Robot robot, int delta) {
